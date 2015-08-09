@@ -1,0 +1,276 @@
+body {
+    font: 14px SimSun, Arial, sans-serif;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    height: 80px;
+    width: 100%;
+    background: #8300b4;
+    position: relative;
+}
+
+.container {
+    width: 980px;
+    margin: 0 auto;
+}
+
+header .container {
+    position: relative;
+    height: 100%;
+}
+
+#my-logo {
+    height: 70px;
+    margin: 5px 0px;
+    /* padding: 5px 0px 5px; */
+}
+
+#hdr-nav {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+}
+
+/* nav {
+    height: 24px;
+    line-height: 24px;
+} */
+
+nav > ul {
+    list-style: none;
+    text-align: center;
+}
+
+nav > ul > li {
+    /* display: inline-block; */
+    float: left;
+    /* padding: 0 14px; */
+}
+
+#hdr-nav > ul > li:last-child {
+    margin-right: -14px;
+}
+
+nav > ul > li > a {
+    display: block;
+    padding: 5px 14px;
+    /* line-height: 1; */
+    text-decoration: none;
+    color: #FFF;
+}
+
+nav > ul > li > a:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+nav > ul > li > a:visited {
+    color: #FFF;
+}
+
+header .github-icon {
+    width: 30px;
+    height: 34px;
+    background: url(../img/icon-github.png) no-repeat;
+    position: absolute;
+    right: 10px;
+    bottom: 0px;
+}
+
+#home-hdr {
+    height: 600px;
+    background: url(../img/banner-bg.jpg) no-repeat center center;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+#hdr-sec {
+    width: 350px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 10px 10px 30px;
+    background: linear-gradient(rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .5) 25%, rgba(255, 255, 255, 0) 100%);
+}
+
+#hdr-sec > h3 {
+    font: 14px SimSun, Arial, sans-serif;
+    color: #FFF;
+    text-align: right;
+    margin: 0 0 12px;
+    padding: 0;
+}
+
+#hdr-sec > p {
+    font: 12px/150% SimSun, Arial, sans-serif;
+    color: #FFF;
+    text-indent: 2em;
+    margin: 0;
+    padding: 0;
+}
+
+#art-sec {
+    height: 500px;
+    background-color: #EEE;
+}
+
+#art-sec article {
+    float: left;
+    width: 320px;
+    height: 370px;
+    margin: 10px 10px 0 0;
+    background-color: #FFF;
+}
+
+#art-sec article:last-child {
+    margin-right: 0;
+}
+
+#art-sec .art-img {
+    display: block;
+    width: 300px;
+    height: 180px;
+    padding: 0;
+    margin: 10px;
+}
+
+#art-sec .art-content {
+    padding: 0;
+    margin: 15px 30px 25px;
+    font: 12px/170% SimSun, Arial, sans-serif;
+}
+
+#art-sec .art-content p {
+    padding: 0;
+    margin: 0;
+    text-indent: 2em;    
+}
+
+#intro-sec {
+    height: 450px;
+    margin: 0;
+    background-color: rgba(150, 86, 190, 0.33);
+}
+
+#intro-sec .container {
+    position: relative;
+}
+
+#favicon {
+    position: absolute;
+    left: 50%;
+    /* display: block; */
+    width: 160px;
+    height: 160px;
+    margin: -50px 0 0 -80px;
+    border-radius: 100%;
+}
+
+/* #self_intro {
+    width: 600px;
+    margin: 0;
+} */
+
+#self-intro h2 {
+    width: 600px;
+    padding: 170px 0 0;
+    margin: 0px auto 40px;
+    text-align: center;
+    font: 20px "Century Gothic", Arial, sans-serif;
+}
+
+.intro-content {
+    width: 600px;
+    margin: 40px auto 0;
+    font: 14px SimSun, Arial, sans-serif;
+}
+
+ .intro-content > p {
+    padding: 0;
+    margin: 0;
+    text-indent: 2em;
+}
+
+footer {
+    position: relative;
+    height: 450px;
+    background-color: #000;
+    color: #FFF;
+}
+
+#nav-area {
+    height: 32px;
+    line-height: 32px;
+    border-bottom: 1px solid #4e4e4e;
+    
+}
+
+#ftr-nav {
+    float: left;
+    margin-left: 50%;
+}
+
+#ftr-nav > ul {
+    padding: 0;
+    margin: 0 0 0 -50%;
+    line-height: 22px;
+}
+
+/* footer .container {
+    position: relative;
+} */
+
+#link-area:after {
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+}
+
+.link-col {
+    float: left;
+    width: 196px;
+}
+
+.link-col > div {
+    margin: 40px 0 30px;
+}
+
+.link-col > ul {
+    padding: 0;
+    list-style: none;
+}
+
+.link-col > ul > li > a {
+    text-decoration: none;
+    line-height: 1.8em;
+    color: #FFF;
+}
+
+.link-col > ul > li > a:hover {
+    text-decoration: underline;
+}
+
+.link-col > ul > li > a:visited {
+    text-decoration: none;
+}
+
+#copyright-area {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#copyright {
+    margin-bottom: 25px;
+}
+
+#copy-right .github-icon {
+    width: 30px;
+    height: 34px;
+}
