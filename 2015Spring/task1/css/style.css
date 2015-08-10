@@ -530,3 +530,57 @@ footer {
 .tag-sect .mini {
     font-size: 12px;
 }
+
+.search-sect:after {
+content: ".";
+display: block;
+height: 0;
+visibility: hidden;
+clear: both;
+}
+
+.search-form {
+    width: 100%;
+    border: 1
+}
+
+.search-form > * {
+    display: block;
+    float: left;
+}
+
+.search-logo {
+    width: 44px;
+    height: 43px;
+    border-left: 1px solid #DDD;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+    background: url(../img/searcj-logo.png) no-repeat 6px 6px;
+    -webkit-background-size: 30px 30px;
+    background-size: ;
+}
+
+.search-box {
+    width: 115px;
+    height: 45px;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+    border-left: none;
+    border-right: none;
+    
+    padding: 10px 0px;
+    font-size: 14px;
+}
+
+.search-btn {
+    width: 60px;
+    height: 45px;
+    border: 1px solid #DDD;
+    background-color: #DDD;
+    font-size: 20px;
+    color: #FFF;
+}
+
+.search-box:focus {
+    outline: none;
+}
