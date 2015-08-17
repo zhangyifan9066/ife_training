@@ -769,7 +769,6 @@ clear: both;
     top: 0;
     left: -75px;
     margin-bottom: 50px;
-    background-color: #FFF;
 }
 
 .about-item-detail-item > div {
@@ -783,6 +782,7 @@ clear: both;
     border: 5px solid #EEE;
     border-radius: 10px;
     text-align: center;
+    background-color: #FFF;
 }
 
 .desc {
