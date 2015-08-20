@@ -351,6 +351,16 @@ function removeEvent(element, event, listener) {
 }
 
 
+function delegateEvent(element, tag, eventName, listener) {
+    addEvent(element, eventName, function (event) {
+        var target = event.target || event.srcElement;
+        if (target && target.tagName.toUpperCase() === tag.toUpperCase()) {
+            listener.call(target, event);
+        }
+    });
+}
+
+
 function addClickEvent(element, listener) {
     addEvent(element, 'click', listener);
 }
@@ -365,23 +375,51 @@ function addEnterEvent(element, listener) {
     });
 }
 
-$.on = function (element, event, listener) {
-    addEvent(element, event, listener);
+$.on = function (selector, event, listener) {
+    addEvent($(selector), event, listener);
 };
 
-$.un = function (element, event, listener) {
-    removeEvent(element, event, listener);
+$.un = function (selector, event, listener) {
+    removeEvent($(selector), event, listener);
 };
 
-$.click = function (element, listener) {
-    addClickEvent(element, listener);
+$.click = function (selector, listener) {
+    addClickEvent($(selector), listener);
 };
 
-$.enter = function (element, listener) {
-    addEnterEvent(element, listener);
+$.enter = function (selector, listener) {
+    addEnterEvent($(selector), listener);
 };
 
+$.delegate = function (selector, tag, eventName, listener) {
+    delegateEvent($(selector), tag, eventName, listener);
+}
 
+
+function isIE() {
+    return /msie (\d+\.\d+)/i.test(navigator.userAgent) || 'ActiveXObject' in window
+        ? (document.documentMode || + RegExp['\x241']) : -1;
+}
+
+
+function setCookie(cookieName, cookieValue, expiredays) {
+    var expire = new Date();
+    if (typeof expiredays === 'number') {
+        expire.setDate(expire.getDate() + expiredays);
+    }
+    
+    document.cookie = cookieName + '=' + encodeURIComponent(cookieValue) + (typeof expiredays === 'number') ? '; expires=' + expire.toUTCString() : "";
+}
+
+
+function getCookie(cookieName) {
+    var re = new RegExp('(?:^| |;)' + cookieName + '=([^;]*)(;|$)');
+    var result = document.cookie.match(re);
+    
+    if (!result)
+        return null;
+    return result[1];
+}
 
 var a = 1;
 var b = new Number(3);
