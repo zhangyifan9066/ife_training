@@ -163,6 +163,224 @@ function isMobilePhone(phone) {
 }
 
 
+function addClass(element, newClassName) {
+    var newClasses = ({}.toString.call(newClassName) === '[object String]') ? newClassName.mathc(/\S+/g) : [];
+    if (element.nodeType === 1) {
+        var oldClassName = element.className || '';
+        var oldClasses = oldClassName.match(/\S+/g);
+        var i, len;
+        newClasses.forEach(function (ele, idx, arr) {
+            len = oldClasses.length;
+            for (i = 0; i < len; i++) {
+                if (ele !== oldClasses[i])
+                    oldClasses.push(ele);
+            }
+        });
+        
+        element.className = oldClasses.join(' ');
+    }
+}
+
+
+function removeClass(element, oldClassName) {
+    var oldClasses = ({}.toString.call(oldClassName) === '[object String]') ? oldClassName.mathc(/\S+/g) : [];
+    if (element.nodeType === 1) {
+        var className = element.className || '';
+        var classes = className.match(/\S+/g);
+        var i, len;
+        oldClasses.forEach(function (ele, idx, arr) {
+            len = classes.length;
+            for (i = 0; i < len; i++) {
+                if (ele === classes[i])
+                    classes.splice(i, 1);
+            }
+        });
+        
+        element.className = classes.join(' ');
+    }
+}
+
+
+function isSiblingNode(element, siblingNode) {
+    return element.parentNode === siblingNod.parentNode;
+}
+
+
+function getPosition(element) {
+    var cur = element, parent, left, top;
+    if (!(element instanceof HTMLElement))
+        return null;
+    while (cur) {
+        left += element.offsetLeft;
+        top += element.offsetTop;
+        cur = cur.offsetParent;
+    }
+    
+}
+
+
+function $(selector) {
+    if ({}.toString.call(selector) !== '[object String]')
+        return null;
+    var selectors = selector.trim().split(/\s+/);
+    
+    var idReg = /^#((?:[^\W0-9]|[-_])+[\w-_]*)$/;
+    var tagReg = /^\w+$/;
+    var classReg = /^.((?:[^\W0-9]|[-_])+[\w-_]*)$/;
+    var attrReg = /^\[((?:[^\W0-9]|[-_])+[\w-_]*)(?:=(["'])?([^"'\]]+)\2)?\]$/;
+    
+    function hasClass(ele, className) {
+        if (!className || !ele)
+            return false;
+        var allClasses = ele.className;
+        if (!allClasses)
+            return false;
+        allClasses = allClasses.split(/\s+/);
+        var i, len = allClasses.length;
+        for (i = 0; i < len; i++) {
+            if (allClasses[i] === className)
+                return true;
+        }
+        return false;
+    }
+    
+    var selectFn = {
+        'id': function (ele, id) {
+            return [document.getElementById(id)];
+        },
+        'tag': function (ele, tag) {
+            return [].slice.call(ele.getElementsByTagName(tag), 0);
+        },
+        'class': function(ele, className) {
+            var result = [];
+            if (ele.getElementsByClassName) {
+                return [].slice.call(ele.getElementsByClassName(className), 0);
+            } else {
+                var allChildren = ele.getElementsByTagName('*');
+                var i, len = allChildren.length;
+                for (i = 0; i < len; i++) {
+                    if (hasClass(allChildren[i], className))
+                        result.psuh(allChildren[i]);
+                }
+            }
+            return result;
+        },
+        'attr': function(ele, attr, value) {
+            var result = [];
+            var allChildren = ele.getElementsByTagName('*');
+            var i, len = allChildren.length;
+            for (i = 0; i < len; i++) {
+                if (value !== undefined) {
+                    if (allChildren[i].getAttribute(attr) === value)
+                        result.push(allChildren[i]);
+                } else {
+                    if (allChildren[i].hasAttribute(attr))
+                        result.push(allChildren[i]);
+                }
+            }
+            return result;
+        }
+    };
+    
+    function select(ele, selector) {
+        var result, type, params = [ele];
+        if (result = selector.match(idReg)) {
+            type = 'id';
+            params.push(result[1]);
+        } else if (result = selector.match(tagReg)) {
+            type = 'tag';
+            params.push(result[0]);
+        } else if (result = selector.match(classReg)) {
+            type = 'class';
+            params.push(result[1]);
+        } else if (result = selector.match(attrReg)) {
+            type = 'attr';
+            params.push(result[1], result[3]);
+        }
+        
+        if (!type)
+            return null;
+        
+        result = selectFn[type].apply(null, params)
+        if (result.length === 0);
+            return null;
+        return result;
+    }
+    
+    var queue = [document], buf = [];
+    var i, len = selectors.length;
+    var ele, newEles;
+    for (i = 0; i < len; i++) {
+        while (queue.length !== 0) {
+            ele = queue.shift();
+            newEles = select(ele, selectors[i]);
+            if (newEles !== null) {
+                if (i === len - 1)
+                    return newEles[0];
+                buf = buf.concat(newEles);
+            }
+        }
+        queue = buf;
+        buf = [];
+    }
+    return null;
+}
+
+
+function addEvent(element, event, listener) {
+    if (element.attachEvent) {
+        element['e' + event + listener] = listener;
+        element[event + listener] = function() {
+            element['e' + event + listener](window.event);
+        };
+        element.attachEvent('on' + event, element[event + listener]);
+    } else if (element.addEventListener) {
+        element.addEventListener(event, listener, false);
+    }
+}
+
+
+function removeEvent(element, event, listener) {
+    if (element.detachEvent) {
+        element.detachEvent('on' + event, element[event + listener]);
+        delete element[event + listener];
+        delete element['e' + event + listener];
+    } else {
+        element.removeEventListener(event, listener, false);
+    }
+}
+
+
+function addClickEvent(element, listener) {
+    addEvent(element, 'click', listener);
+}
+
+
+function addEnterEvent(element, listener) {
+    addEvent(element, 'keypress', function(event) {
+        var keyCode = event.keyCode || event.which;
+        if (keyCode === 13) {
+            listener.call(element, event);
+        }
+    });
+}
+
+$.on = function (element, event, listener) {
+    addEvent(element, event, listener);
+};
+
+$.un = function (element, event, listener) {
+    removeEvent(element, event, listener);
+};
+
+$.click = function (element, listener) {
+    addClickEvent(element, listener);
+};
+
+$.enter = function (element, listener) {
+    addEnterEvent(element, listener);
+};
+
 
 
 var a = 1;
