@@ -13,7 +13,7 @@ function isArray(obj) {
  * @return {Boolean} Return true if obj is a Function, false otherwise
  */ 
 function isFunction(obj) {
-    return 'object Function]' === '[object ' + Object.prototype.toString.call(obj) + ']';
+    return '[object Function]' === '[object ' + Object.prototype.toString.call(obj) + ']';
 }
 
 /**
@@ -419,6 +419,48 @@ function getCookie(cookieName) {
     if (!result)
         return null;
     return result[1];
+}
+
+
+function ajax(url, option) {
+    var option = option || {};
+    var data = dataToString(option.data || {});
+    var type = (option.type || 'GET').toUpperCase();
+    var successHandler = isFunction(option.onsuccess) ? option.onsuccess : function() {};
+    var failHandler = isFunction(option.onfail) ? option.onfail : function() {};
+    
+        
+    function dataToString(data) {
+        var dataArray = [];
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                dataArray.push(encodeURIComponent(key + '=' + data[key]));
+            }
+        }
+        return dataArray.join('&');
+    }
+
+    url = url ? encodeURIComponent(url) : '';
+    if (type === 'GET' && data !== '') {
+        url += '?' + data;
+    }
+    
+    var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    xhr.open(type, url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            successHandler(xhr, xhr.responseText);
+        } else {
+            failHandler(xhr);
+        }
+    };
+    
+    if (type === 'GET') {
+        xhr.send();
+    } else if (type === 'POST') {
+        xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+        xhr.send(data);
+    }
 }
 
 var a = 1;
