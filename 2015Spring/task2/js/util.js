@@ -136,8 +136,8 @@ function trim(str) {
 
 function each(arr, fn) {
     var i, len = arr.length;
-    for (i = 0; i < len; i++)
-        fn(arr[i], i);
+    for (i = len - 1; i >= 0; i--)
+        fn(arr[i], i, arr);
 }
 
 
@@ -301,8 +301,8 @@ function $(selector) {
         if (!type)
             return null;
         
-        result = selectFn[type].apply(null, params)
-        if (result.length === 0);
+        result = selectFn[type].apply(null, params);
+        if (result.length === 0)
             return null;
         return result;
     }
@@ -315,8 +315,9 @@ function $(selector) {
             ele = queue.shift();
             newEles = select(ele, selectors[i]);
             if (newEles !== null) {
-                if (i === len - 1)
+                if (i === len - 1) {
                     return newEles[0];
+                }
                 buf = buf.concat(newEles);
             }
         }
@@ -462,14 +463,3 @@ function ajax(url, option) {
         xhr.send(data);
     }
 }
-
-var a = 1;
-var b = new Number(3);
-
-console.dir(cloneObject(a));
-console.dir(cloneObject(b));
-
-var arr = [1, 4, 'fff', 1, 10, 1, 'asd', 10, 'eee', 'fff', 10];
-console.log(uniqArray(arr));
-console.log(uniqArray1(arr));
-console.log(uniqArray3(arr));
