@@ -356,7 +356,7 @@ function delegateEvent(element, tag, eventName, listener) {
     addEvent(element, eventName, function (event) {
         var target = event.target || event.srcElement;
         if (target && target.tagName.toUpperCase() === tag.toUpperCase()) {
-            listener.call(target, event);
+            listener.call(null, event, target);
         }
     });
 }
