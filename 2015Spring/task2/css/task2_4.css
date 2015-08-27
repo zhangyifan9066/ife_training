@@ -1,0 +1,38 @@
+.search-panel {
+    position: relative;
+}
+
+.search-input {
+    padding: 4px;
+    width: 150px;
+    line-height: 20px;
+    border: 2px solid #BBB;
+}
+
+.search-suggest {
+    position: absolute;
+    top: 32px;
+    left: 0;
+    padding: 0px;
+    margin: 0;
+    width: 160px;
+    list-style: none;
+    background-color: #FFF;
+}
+
+ul.search-suggest-active {
+    border: 1px solid #BBB;
+    border-top: none;
+}
+
+li.search-suggest-active {
+    padding: 4px;
+}
+
+.search-suggest-select {
+    background-color: #DDD;
+}
+
+.search-suggest-item span {
+    color: #F00;
+}
