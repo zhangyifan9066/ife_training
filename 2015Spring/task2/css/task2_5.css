@@ -1,0 +1,64 @@
+h1 {
+    text-align: center;
+}
+
+.drag-panel {
+    position: relative;
+}
+
+.drag-list {
+    float: left;
+    padding: 0;
+    margin: 0 100px 0 0;
+    width: 200px;
+    min-height: 600px;
+    border: 1px solid #000;
+    list-style: none;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.drag-list:last-child {
+    margin-right: 0;
+}
+
+.drag-list-item {
+    padding: 10px;
+    list-style: none;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    border: 1px solid #FFF;
+    /* border-bottom: 1px solid #FFF; */
+    background-color: #F00;
+}
+
+.drag-list-item.drag-shadow {
+    border: 5px dashed #000;
+    background-color: transparent;
+}
+
+.drag-list-item.drag-dragged {
+    position: absolute;
+    width: 178px;
+    background-color: rgba(255, 0, 0, .4);
+}
+
+/* .drag-list .drag-list-item:first-child {
+    border: none;
+} */
+
+.clear-float:after {
+    content: '.';
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+}

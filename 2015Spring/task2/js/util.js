@@ -164,26 +164,29 @@ function isMobilePhone(phone) {
 
 
 function addClass(element, newClassName) {
-    var newClasses = ({}.toString.call(newClassName) === '[object String]') ? newClassName.mathc(/\S+/g) : [];
+    var newClasses = ({}.toString.call(newClassName) === '[object String]') ? newClassName.match(/\S+/g) : [];
     if (element.nodeType === 1) {
         var oldClassName = element.className || '';
         var oldClasses = oldClassName.match(/\S+/g);
         var i, len;
-        newClasses.forEach(function (ele, idx, arr) {
-            len = oldClasses.length;
-            for (i = 0; i < len; i++) {
-                if (ele !== oldClasses[i])
-                    oldClasses.push(ele);
-            }
-        });
-        
-        element.className = oldClasses.join(' ');
+        if (oldClasses) {
+            newClasses.forEach(function (ele, idx, arr) {
+                len = oldClasses.length;
+                for (i = 0; i < len; i++) {
+                    if (ele !== oldClasses[i])
+                        oldClasses.push(ele);
+                }
+            });
+            element.className = oldClasses.join(' ');
+        } else {
+            element.className = newClasses.join(' ');
+        }
     }
 }
 
 
 function removeClass(element, oldClassName) {
-    var oldClasses = ({}.toString.call(oldClassName) === '[object String]') ? oldClassName.mathc(/\S+/g) : [];
+    var oldClasses = ({}.toString.call(oldClassName) === '[object String]') ? oldClassName.match(/\S+/g) : [];
     if (element.nodeType === 1) {
         var className = element.className || '';
         var classes = className.match(/\S+/g);
@@ -202,22 +205,32 @@ function removeClass(element, oldClassName) {
 
 
 function isSiblingNode(element, siblingNode) {
-    return element.parentNode === siblingNod.parentNode;
+    return element.parentNode === siblingNode.parentNode;
 }
 
 
 function getPosition(element) {
-    var cur = element, parent, left, top;
+    var cur = element;
     if (!(element instanceof HTMLElement))
         return null;
-    while (cur) {
-        left += element.offsetLeft;
-        top += element.offsetTop;
-        cur = cur.offsetParent;
-    }
-    
+    var box = element.getBoundingClientRect();
+    return box;
 }
 
+function hasClass(ele, className) {
+    if (!className || !ele)
+        return false;
+    var allClasses = ele.className;
+    if (!allClasses)
+        return false;
+    allClasses = allClasses.split(/\s+/);
+    var i, len = allClasses.length;
+    for (i = 0; i < len; i++) {
+        if (allClasses[i] === className)
+            return true;
+    }
+    return false;
+}
 
 function $(selector) {
     if ({}.toString.call(selector) !== '[object String]')
@@ -228,21 +241,6 @@ function $(selector) {
     var tagReg = /^\w+$/;
     var classReg = /^.((?:[^\W0-9]|[-_])+[\w-_]*)$/;
     var attrReg = /^\[((?:[^\W0-9]|[-_])+[\w-_]*)(?:=(["'])?([^"'\]]+)\2)?\]$/;
-    
-    function hasClass(ele, className) {
-        if (!className || !ele)
-            return false;
-        var allClasses = ele.className;
-        if (!allClasses)
-            return false;
-        allClasses = allClasses.split(/\s+/);
-        var i, len = allClasses.length;
-        for (i = 0; i < len; i++) {
-            if (allClasses[i] === className)
-                return true;
-        }
-        return false;
-    }
     
     var selectFn = {
         'id': function (ele, id) {
@@ -260,7 +258,7 @@ function $(selector) {
                 var i, len = allChildren.length;
                 for (i = 0; i < len; i++) {
                     if (hasClass(allChildren[i], className))
-                        result.psuh(allChildren[i]);
+                        result.push(allChildren[i]);
                 }
             }
             return result;
@@ -327,6 +325,28 @@ function $(selector) {
     return null;
 }
 
+function getElementsByClassName(className, ele) {
+    if ({}.toString.call(className) !== '[object String]')
+        return [];
+    ele = ele === undefined ? document : ele instanceof HTMLElement ? ele : undefined;
+    if (ele === undefined)
+        return [];
+    
+    var result = [];
+    if (ele.getElementsByClassName) {
+        result = [].slice.call(ele.getElementsByClassName(className), 0);
+    } else {
+        var allChildren = ele.getElementsByTagName('*');
+        var i, len = allChildren.length;
+        for (i = 0; i < len; i++) {
+            if (hasClass(allChildren[i], className)) {
+                result.push(allChildren[i]);
+            }
+        }
+    }
+    
+    return result;
+}
 
 function addEvent(element, event, listener) {
     if (element.attachEvent) {
